@@ -27,5 +27,10 @@ namespace Program__20_Forms
         {
 
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
