@@ -19,10 +19,10 @@ namespace Program__20_Forms
         }
         SqlConnection cn;
         SqlCommand cmd;
-        IDataReader dr;
+        SqlDataReader dr;
         private void Login_Load(object sender, EventArgs e)
         {
-            cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\MSII\source\repos\Program №20 Forms\Program №20 Forms\Database1.mdf"";Integrated Security=True");
+            cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\MSII\source\repos\Program №20 Forms\Program №20 Forms\Database1.mdf;Integrated Security=True");
             cn.Open();
         }
 
@@ -38,7 +38,7 @@ namespace Program__20_Forms
             if (textBox2.Text != string.Empty || textBox1.Text != string.Empty)
             {
 
-                cmd = new SqlCommand("select * from LoginTable where username='" + textBox1.Text + "' and password='" + textBox2.Text + "'", cn);
+                cmd = new SqlCommand("select * from LoginTable1 where username='" + textBox1.Text + "' and password='" + textBox2.Text + "'", cn);
                 dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
