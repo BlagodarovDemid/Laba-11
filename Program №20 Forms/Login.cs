@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,13 +33,25 @@ namespace Program__20_Forms
             Registration registration = new Registration();
             registration.ShowDialog();
         }
+        private string GetHashString(string s)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(s);
+            MD5CryptoServiceProvider CSP = new MD5CryptoServiceProvider();
+            byte[] byteHash = CSP.ComputeHash(bytes);
+            string hash = "";
+            foreach (byte b in byteHash)
+            {
+                hash += string.Format("{0:x2}", b);
+            }
+            return hash;
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
             if (textBox2.Text != string.Empty || textBox1.Text != string.Empty)
             {
 
-                cmd = new SqlCommand("select * from LoginTable1 where username='" + textBox1.Text + "' and password='" + textBox2.Text + "'", cn);
+                cmd = new SqlCommand("select * from LoginTable1 where username='" + GetHashString(textBox1.Text) + "' and password='" + GetHashString(textBox2.Text) + "'", cn);
                 dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
@@ -50,13 +63,13 @@ namespace Program__20_Forms
                 else
                 {
                     dr.Close();
-                    MessageBox.Show("No Account avilable with this username and password ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Не существует аккаунта с таким логином или паролем: ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
             }
             else
             {
-                MessageBox.Show("Please enter value in all field.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Пожалуйста, заполните все поля: ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

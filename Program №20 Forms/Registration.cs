@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,6 +39,19 @@ namespace Program__20_Forms
             login.ShowDialog();
         }
 
+        private string GetHashString(string s)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(s);
+            MD5CryptoServiceProvider CSP = new MD5CryptoServiceProvider();
+            byte[] byteHash = CSP.ComputeHash(bytes);
+            string hash = "";
+            foreach (byte b in byteHash)
+            {
+                hash += string.Format("{0:x2}", b);
+            }
+            return hash;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (textBox3.Text != string.Empty || textBox2.Text != string.Empty || textBox1.Text != string.Empty)
@@ -49,14 +63,14 @@ namespace Program__20_Forms
                     if (dr.Read())
                     {
                         dr.Close();
-                        MessageBox.Show("Username Already exist please try another ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Имя пользователя уже существует: ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
                         dr.Close();
                         cmd = new SqlCommand("insert into LoginTable1 values(@username,@password,@firstname,@lastname,@birthday,@email,@phone,@department,@level,@data)", cn);
                         cmd.Parameters.AddWithValue("username", textBox1.Text);
-                        cmd.Parameters.AddWithValue("password", textBox2.Text);
+                        cmd.Parameters.AddWithValue("password", GetHashString(textBox2.Text));
                         cmd.Parameters.AddWithValue("firstname", textBox4.Text);
                         cmd.Parameters.AddWithValue("lastname", textBox5.Text);
                         cmd.Parameters.AddWithValue("birthday", textBox6.Text);
@@ -66,17 +80,17 @@ namespace Program__20_Forms
                         cmd.Parameters.AddWithValue("level", textBox10.Text);
                         cmd.Parameters.AddWithValue("data", textBox11.Text);
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show("Your Account is created . Please login now.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Ваш аккаунт создан. Пожалуйста, авторизуйтесь: ", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please enter both password same ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Пожалуйста, введите оба пароля одинаково: ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Please enter value in all field.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Пожалуйста, заполните все поля: ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
