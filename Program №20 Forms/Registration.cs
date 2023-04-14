@@ -80,17 +80,17 @@ namespace Program__20_Forms
                         cmd.Parameters.AddWithValue("level", textBox10.Text);
                         cmd.Parameters.AddWithValue("data", textBox11.Text);
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show("Ваш аккаунт создан. Пожалуйста, авторизуйтесь: ", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Ваш аккаунт создан. Пожалуйста, авторизуйтесь ", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Пожалуйста, введите оба пароля одинаково: ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Пожалуйста, введите оба пароля одинаково ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Пожалуйста, заполните все поля: ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Пожалуйста, заполните все поля ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
