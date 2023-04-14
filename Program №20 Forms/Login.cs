@@ -59,22 +59,20 @@ namespace Program__20_Forms
             }
             return hash;
         }
-
+        //Barkhatnyy
         private void button2_Click(object sender, EventArgs e)
         {
             if (textBox2.Text != string.Empty || textBox1.Text != string.Empty)
             {
 
-                //cmd = new SqlCommand("select * from LoginTable1 where username='" + textBox1.Text + "' and password='" + GetHashString(textBox2.Text) + "'", cn);
-                cmd = new SqlCommand("select * from LoginTable1 where username='" + textBox1.Text + "' and password='" + textBox2.Text + "'", cn);
+                cmd = new SqlCommand("select * from LoginTable1 where username='" + textBox1.Text + "' and password='" + GetHashString(textBox2.Text) + "'", cn);
                 dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
-                    MessageBox.Show(String.Format("id: {0} \nName: {1}", dr[0], dr[1]));
                     this.Hide();
                     id = Convert.ToInt32(dr[0]);
                     username = Convert.ToString(dr[1]);
-                    password = Convert.ToString(dr[2]);
+                    password = Convert.ToString(dr[11]);
                     firstname = Convert.ToString(dr[3]);
                     lastname = Convert.ToString(dr[4]);
                     birthday = Convert.ToString(dr[5]);
@@ -108,7 +106,7 @@ namespace Program__20_Forms
             {
                 id = Convert.ToInt32(dr[0]);
                 username = Convert.ToString(dr[1]);
-                password = Convert.ToString(dr[2]);
+                password = Convert.ToString(dr[11]);
                 firstname = Convert.ToString(dr[3]);
                 lastname = Convert.ToString(dr[4]);
                 birthday = Convert.ToString(dr[5]);
@@ -118,17 +116,21 @@ namespace Program__20_Forms
                 level = Convert.ToString(dr[9]);
                 data = Convert.ToString(dr[10]);
 
-/*                MailAddress from = new MailAddress("nikitabrawler228@mail.ru", "Nikita");
-                //MailAddress to = new MailAddress(Convert.ToString(dr[6]));
-                MailAddress to = new MailAddress("nikitabrawler228@mail.ru");
+                MailAddress from = new MailAddress("nikitabrawler228@mail.ru", "Umbrella Corporation");
+                MailAddress to = new MailAddress(email);
                 MailMessage m = new MailMessage(from, to);
-                m.Subject = "Тест";
-                m.Body = "<h1>Пароль: " + password + "</h1>";
+                m.Subject = "Forgot password";
+                m.Body = "<h1>Ваш пароль для входа в учетную запись: " + password + "</h1>";
                 m.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient("smtp.mail.ru", 587);
-                smtp.Credentials = new NetworkCredential("nikitabrawler228@mail.ru", "officiant228");
+                //BrawlStars
+                //Fdk7mkyEa1B8fDFWHZsx
+                //officiant228
+                //259903577 928888577 554892522 848691716 097219337 654727385 487578393 466361873 896601630 175492343
+                smtp.Credentials = new NetworkCredential("nikitabrawler228@mail.ru", "Fdk7mkyEa1B8fDFWHZsx");
                 smtp.EnableSsl = true;
-                smtp.Send(m);*/
+                smtp.Send(m);
+                MessageBox.Show("Пароль был успешно отправлен на Вашу почту");
                 dr.Close();
             }
         }

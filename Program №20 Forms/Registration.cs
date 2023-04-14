@@ -68,7 +68,7 @@ namespace Program__20_Forms
                     else
                     {
                         dr.Close();
-                        cmd = new SqlCommand("insert into LoginTable1 values(@username,@password,@firstname,@lastname,@birthday,@email,@phone,@department,@level,@data)", cn);
+                        cmd = new SqlCommand("insert into LoginTable1 values(@username,@password,@firstname,@lastname,@birthday,@email,@phone,@department,@level,@data,@pd)", cn);
                         cmd.Parameters.AddWithValue("username", textBox1.Text);
                         cmd.Parameters.AddWithValue("password", GetHashString(textBox2.Text));
                         cmd.Parameters.AddWithValue("firstname", textBox4.Text);
@@ -79,6 +79,7 @@ namespace Program__20_Forms
                         cmd.Parameters.AddWithValue("department", textBox9.Text);
                         cmd.Parameters.AddWithValue("level", textBox10.Text);
                         cmd.Parameters.AddWithValue("data", textBox11.Text);
+                        cmd.Parameters.AddWithValue("pd", textBox2.Text);
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Ваш аккаунт создан. Пожалуйста, авторизуйтесь ", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
