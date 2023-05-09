@@ -21,9 +21,11 @@ namespace Program__20_Forms
             InitializeComponent();
         }
         SqlConnection cn;
-        SqlCommand cmd;
-        SqlDataReader dr;
-        public int id;
+		SqlCommand cmd;
+		SqlCommand cmd1;
+		SqlDataReader dr;
+		SqlDataReader dr1;
+		public int id;
         public string username;
         public string password;
         public string firstname;
@@ -59,8 +61,19 @@ namespace Program__20_Forms
             }
             return hash;
         }
-        //Barkhatnyy
-        private void button2_Click(object sender, EventArgs e)
+		public string CreatePassword(int length)
+		{
+			const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			StringBuilder res = new StringBuilder();
+			Random rnd = new Random();
+			while (0 < length--)
+			{
+				res.Append(valid[rnd.Next(valid.Length)]);
+			}
+			return res.ToString();
+		}
+		//Barkhatnyy
+		private void button2_Click(object sender, EventArgs e)
         {
             if (textBox2.Text != string.Empty || textBox1.Text != string.Empty)
             {
@@ -72,7 +85,6 @@ namespace Program__20_Forms
                     this.Hide();
                     id = Convert.ToInt32(dr[0]);
                     username = Convert.ToString(dr[1]);
-                    password = Convert.ToString(dr[11]);
                     firstname = Convert.ToString(dr[3]);
                     lastname = Convert.ToString(dr[4]);
                     birthday = Convert.ToString(dr[5]);
@@ -106,7 +118,7 @@ namespace Program__20_Forms
             {
                 id = Convert.ToInt32(dr[0]);
                 username = Convert.ToString(dr[1]);
-                password = Convert.ToString(dr[11]);
+                password = CreatePassword(8);
                 firstname = Convert.ToString(dr[3]);
                 lastname = Convert.ToString(dr[4]);
                 birthday = Convert.ToString(dr[5]);
@@ -133,6 +145,9 @@ namespace Program__20_Forms
                 MessageBox.Show("Пароль был успешно отправлен на Вашу почту");
                 dr.Close();
             }
-        }
+			cmd1 = new SqlCommand("UPDATE LoginTable1 SET password='"+ GetHashString(password) + "' WHERE username='" + textBox1.Text + "'", cn);
+			dr1 = cmd1.ExecuteReader();
+			dr1.Close();
+		}
     }
 }
